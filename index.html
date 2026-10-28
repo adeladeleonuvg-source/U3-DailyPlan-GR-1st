@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colegio Montano - 1st Grade Grammar Unit 3 Interactive Board</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        montanoBlue: '#1269A8',
+                        montanoYellow: '#F7D615',
+                        montanoGreen: '#54887D',
+                        montanoLightBlue: '#88B5C7',
+                        montanoOlive: '#A6B046',
+                        montanoSoftBg: '#F2F5E9'
+                    },
+                    fontFamily: {
+                        sans: ['Segoe UI', 'Tahoma', 'Verdana', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background-color: #F2F5E9; }
+        .transition-all { transition: all 0.3s ease-in-out; }
+    </style>
+</head>
+<body class="h-full flex flex-col font-sans text-slate-800 antialiased overflow-x-hidden">
+
+    <!-- Header with Colegio Montano Brand & Fullscreen Button -->
+    <header class="bg-montanoBlue shadow-md py-4 px-6 flex flex-wrap items-center justify-between border-b-4 border-montanoYellow">
+        <div class="flex items-center space-x-4">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyEop0yf6lZ7Jk9MILZxF1rBj4Oqs5esyhIQ&s" alt="Colegio Montano Logo" class="h-14 w-14 rounded-full bg-white object-contain p-1 shadow">
+            <div>
+                <h1 class="text-xl md:text-2xl font-bold text-white tracking-wide">Colegio Montano - Pedagogical Assistant</h1>
+                <p class="text-xs md:text-sm text-montanoLightBlue font-medium">1st Grade Grammar | Unit 3 | Teacher: Nicole De León</p>
+            </div>
+        </div>
+        <div class="flex items-center space-x-3 mt-3 md:mt-0">
+            <div class="bg-montanoGreen text-white text-xs px-3 py-1.5 rounded-full font-semibold shadow">
+                <i class="fa-solid fa-calendar-days mr-1.5"></i> May 20 - Aug 4 (7 Weeks)
+            </div>
+            <button onclick="toggleFullscreen()" class="bg-montanoYellow text-slate-900 font-bold px-4 py-2 rounded-xl shadow hover:bg-yellow-400 transition transform active:scale-95 flex items-center gap-2 text-sm">
+                <i class="fa-solid fa-expand" id="fullscreenIcon"></i> Full Screen
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Navigation & Week Selector Bar -->
+    <nav class="bg-white shadow-sm px-6 py-3 border-b border-slate-200">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+            <!-- Week Switcher -->
+            <div class="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
+                <span class="text-xs font-bold text-montanoBlue uppercase mr-1">Weeks:</span>
+                <button onclick="switchWeek(1)" id="weekBtn1" class="week-tab px-3 py-1.5 rounded-lg text-xs font-bold transition bg-montanoBlue text-white shadow">W1-2 (Want)</button>
+                <button onclick="switchWeek(2)" id="weekBtn2" class="week-tab px-3 py-1.5 rounded-lg text-xs font-bold transition bg-slate-100 text-slate-700 hover:bg-slate-200">W3 (This/These)</button>
+                <button onclick="switchWeek(3)" id="weekBtn3" class="week-tab px-3 py-1.5 rounded-lg text-xs font-bold transition bg-slate-100 text-slate-700 hover:bg-slate-200">W4-5 (Possessive)</button>
+                <button onclick="switchWeek(4)" id="weekBtn4" class="week-tab px-3 py-1.5 rounded-lg text-xs font-bold transition bg-slate-100 text-slate-700 hover:bg-slate-200">W6-7 (Can)</button>
+            </div>
+
+            <!-- Class / Session Switcher within the Week -->
+            <div class="flex items-center gap-2">
+                <span class="text-xs font-bold text-montanoGreen uppercase">Session:</span>
+                <button onclick="switchClass(1)" id="classBtn1" class="class-tab px-3 py-1.5 rounded-lg text-xs font-bold bg-montanoGreen text-white shadow transition">Class 1</button>
+                <button onclick="switchClass(2)" id="classBtn2" class="class-tab px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">Class 2</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Interactive Workspace (Pizarra Digital Tabs) -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 flex flex-col gap-6">
+        
+        <!-- Context & Objective Card -->
+        <section class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+            <div class="md:col-span-3">
+                <div class="flex items-center gap-2 mb-1">
+                    <span id="badgeTopic" class="bg-montanoLightBlue text-slate-900 font-bold text-xs px-2.5 py-0.5 rounded-full">Unit 3 | Simple Present of Want</span>
+                    <span id="badgeDates" class="bg-slate-100 text-slate-600 font-medium text-xs px-2.5 py-0.5 rounded-full">May 20 - May 24 (Week 1, Class 1)</span>
+                </div>
+                <h2 id="sessionTitle" class="text-xl md:text-2xl font-bold text-montanoBlue">Simple present of want: I want / You want</h2>
+                <p id="sessionCompetency" class="text-xs md:text-sm text-slate-600 mt-1"><strong>CNB Competency & Learning Achievement:</strong> Expresses personal preferences and desires using simple affirmative structures orally and in writing, based on Our World 1 (SB pp. 100-101, WB p. 69).</p>
+            </div>
+            <div class="bg-montanoSoftBg p-3 rounded-xl border border-montanoOlive/30 flex flex-col justify-center">
+                <div class="text-xs font-bold text-montanoGreen uppercase tracking-wider mb-1"><i class="fa-solid fa-seedling mr-1"></i> Leader in Me Habit</div>
+                <p id="montanoHabit" class="text-xs font-medium text-slate-700">Habit 2: Begin with the End in Mind (Setting goals for what we want to learn and do).</p>
+            </div>
+        </section>
+
+        <!-- Pizarra Digital 4-Moment Tabs Header -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <button onclick="switchTab('intro')" id="tabBtn-intro" class="p-3 rounded-xl font-bold text-xs md:text-sm flex items-center justify-center gap-2 transition shadow bg-montanoBlue text-white border-2 border-montanoBlue">
+                <i class="fa-solid fa-bolt"></i> I) Intro (~5m)
+            </button>
+            <button onclick="switchTab('individual')" id="tabBtn-individual" class="p-3 rounded-xl font-bold text-xs md:text-sm flex items-center justify-center gap-2 transition bg-white text-slate-700 border-2 border-slate-200 hover:border-montanoBlue">
+                <i class="fa-solid fa-pen-nib"></i> II) Individual (20m)
+            </button>
+            <button onclick="switchTab('cooperative')" id="tabBtn-cooperative" class="p-3 rounded-xl font-bold text-xs md:text-sm flex items-center justify-center gap-2 transition bg-white text-slate-700 border-2 border-slate-200 hover:border-montanoBlue">
+                <i class="fa-solid fa-people-group"></i> III) Team (30m)
+            </button>
+            <button onclick="switchTab('plenary')" id="tabBtn-plenary" class="p-3 rounded-xl font-bold text-xs md:text-sm flex items-center justify-center gap-2 transition bg-white text-slate-700 border-2 border-slate-200 hover:border-montanoBlue">
+                <i class="fa-solid fa-flag-checkered"></i> IV) Plenary (15m)
+            </button>
+        </div>
+
+        <!-- Pizarra Digital Content Area -->
+        <div class="bg-white rounded-2xl shadow-md border border-slate-200 p-6 flex-1 flex flex-col justify-between">
+            
+            <!-- TAB I: INTRODUCTION -->
+            <div id="tabContent-intro" class="tab-pane space-y-4">
+                <div class="flex items-center justify-between border-b pb-3">
+                    <h3 class="text-lg font-bold text-montanoBlue flex items-center gap-2">
+                        <i class="fa-solid fa-bolt text-montanoYellow"></i> Moment I: Introduction & Vocabulary Warm-up (~5 minutes)
+                    </h3>
+                    <span class="text-xs bg-amber-100 text-amber-800 font-bold px-3 py-1 rounded-full">Brain Activation</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-montanoSoftBg p-4 rounded-xl border border-slate-200">
+                        <h4 class="font-bold text-slate-800 text-sm mb-2"><i class="fa-solid fa-book-open text-montanoBlue mr-1"></i> Vocabulary 1 & 2 Review (Our World 1)</h4>
+                        <p id="introVocabText" class="text-xs text-slate-700 leading-relaxed">
+                            Flashcard review using images from SB pp. 96-97: <strong>a truck, a car, a kite, a ball, a drum, a train, a puzzle, a doll, a teddy bear</strong>. Teacher holds up flashcards or points to board; students call out the words enthusiastically.
+                        </p>
+                    </div>
+                    <div class="bg-montanoSoftBg p-4 rounded-xl border border-slate-200">
+                        <h4 class="font-bold text-slate-800 text-sm mb-2"><i class="fa-solid fa-gamepad text-montanoGreen mr-1"></i> Dynamic / Brain Gym</h4>
+                        <p id="introDynamicText" class="text-xs text-slate-700 leading-relaxed">
+                            Song & Chant: Sing snippet from <em>"Let's Play"</em> (SB p. 99): "Do you want to play? Do you want to play with me? Yes, I do! Yes, I do!" Students stretch and act out playing with a ball or driving a train.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB II: INDIVIDUAL WORK -->
+            <div id="tabContent-individual" class="tab-pane hidden space-y-4">
+                <div class="flex items-center justify-between border-b pb-3">
+                    <h3 class="text-lg font-bold text-montanoBlue flex items-center gap-2">
+                        <i class="fa-solid fa-pen-nib text-montanoGreen"></i> Moment II: Individual Work & Practice (20 minutes)
+                    </h3>
+                    <span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-3 py-1 rounded-full">Self-Production</span>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+                    <h4 id="indTaskTitle" class="font-bold text-slate-800 text-sm">Student Book & Workbook Guided Practice</h4>
+                    <p id="indTaskDesc" class="text-xs text-slate-700 leading-relaxed">
+                        Students work individually on Student Book pages 100-101 and Workbook page 69. Complete sentences matching pictures with "I want..." or "You want...". Focus on neat handwriting and correct spelling.
+                    </p>
+                    <!-- Collapsible Solution Accordion for Self-Evaluation -->
+                    <div class="mt-4 border border-montanoLightBlue rounded-xl overflow-hidden bg-white">
+                        <button onclick="toggleAccordion('solutionAccordion')" class="w-full bg-montanoLightBlue/20 px-4 py-2.5 text-left font-bold text-xs md:text-sm text-montanoBlue flex justify-between items-center hover:bg-montanoLightBlue/30 transition">
+                            <span><i class="fa-solid fa-key mr-2"></i> Click to view Answer Key / Teacher Guidance (Self-Check)</span>
+                            <i class="fa-solid fa-chevron-down transition-transform" id="solutionChevron"></i>
+                        </button>
+                        <div id="solutionAccordion" class="hidden p-4 text-xs text-slate-700 bg-white border-t border-montanoLightBlue/30 space-y-2">
+                            <p id="solutionContent"><strong>Answers SB p. 100-101:</strong><br>
+                            1. I want a train. / 2. You want a doll.<br>
+                            <strong>Answers WB p. 69:</strong><br>
+                            Check matching lines: Boy with kite -> "I want a kite." Girl with teddy bear -> "You want a teddy bear."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB III: COOPERATIVE WORK -->
+            <div id="tabContent-cooperative" class="tab-pane hidden space-y-4">
+                <div class="flex items-center justify-between border-b pb-3">
+                    <h3 class="text-lg font-bold text-montanoBlue flex items-center gap-2">
+                        <i class="fa-solid fa-people-group text-montanoYellow"></i> Moment III: Cooperative Team Work (30 minutes)
+                    </h3>
+                    <span class="text-xs bg-sky-100 text-sky-800 font-bold px-3 py-1 rounded-full">Team Roles & Product</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-montanoSoftBg p-4 rounded-xl border border-slate-200 md:col-span-2 space-y-2">
+                        <h4 class="font-bold text-slate-800 text-sm">Pair / Small Group Mission</h4>
+                        <p id="coopTaskDesc" class="text-xs text-slate-700 leading-relaxed">
+                            Working in pairs with assigned roles (<strong>Speaker</strong> and <strong>Card Holder</strong>). Students take turns showing a toy flashcard and stating: "I want a [toy]" or asking partner "Do you want a [toy]?" Partner answers "Yes, I do" or "No, I don't."
+                        </p>
+                    </div>
+                    <div class="bg-montanoBlue/10 p-4 rounded-xl border border-montanoBlue/30 flex flex-col justify-center">
+                        <h4 class="font-bold text-montanoBlue text-xs uppercase tracking-wider mb-1"><i class="fa-solid fa-hands-bound mr-1"></i> Leader in Me Habit</h4>
+                        <p class="text-xs text-slate-700 font-medium">Habit 4: Think Win-Win & Habit 6: Sinergize (Listening to partners and sharing learning materials nicely).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB IV: PLENARY & CLOSE -->
+            <div id="tabContent-plenary" class="tab-pane hidden space-y-4">
+                <div class="flex items-center justify-between border-b pb-3">
+                    <h3 class="text-lg font-bold text-montanoBlue flex items-center gap-2">
+                        <i class="fa-solid fa-flag-checkered text-montanoGreen"></i> Moment IV: Plenary, Interactive Quiz & Home Research (15 minutes)
+                    </h3>
+                    <span class="text-xs bg-purple-100 text-purple-800 font-bold px-3 py-1 rounded-full">Consolidation</span>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <h4 class="font-bold text-slate-800 text-sm mb-2"><i class="fa-solid fa-gamepad text-montanoBlue mr-1"></i> Interactive Trivia / Game</h4>
+                        <p class="text-xs text-slate-700 mb-3"><strong>"Pass the Toy" Mini-Quiz:</strong> Teacher holds a toy. Student must say: "I want a [toy]" to receive it, then pass it to a classmate asking "Do you want a [toy]?"</p>
+                        
+                        <!-- Home Research Prompt -->
+                        <div class="bg-amber-50 border border-amber-200 rounded-lg p-3 mt-2">
+                            <span class="text-xs font-bold text-amber-900 block mb-1"><i class="fa-solid fa-house-chimney-user mr-1"></i> Take-Home Research / Activity:</span>
+                            <p id="homeResearchText" class="text-xs text-amber-800 italic">Look in your toy box or bedroom at home. Find 2 toys and practice saying in English to your parents: "I want a [toy name]"!</p>
+                        </div>
+                    </div>
+
+                    <!-- Evaluation Rubric / Checklist for Plenary -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                        <h4 class="font-bold text-slate-800 text-sm mb-2"><i class="fa-solid fa-clipboard-check text-montanoGreen mr-1"></i> Plenary Checklist (Teacher Evaluation)</h4>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs">
+                                <thead class="bg-slate-100 text-slate-700">
+                                    <tr>
+                                        <th class="p-2 rounded-l">Evaluation Criteria</th>
+                                        <th class="p-2 text-center">Yes (3)</th>
+                                        <th class="p-2 text-center rounded-r">Progress (2-1)</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 text-slate-600">
+                                    <tr>
+                                        <td class="p-2">1. Domain of target grammar & clear pronunciation</td>
+                                        <td class="p-2 text-center"><input type="checkbox" class="accent-montanoBlue" checked></td>
+                                        <td class="p-2 text-center"><input type="checkbox" class="accent-montanoBlue"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2">2. Correct structure usage ("I want...", "You want...")</td>
+                                        <td class="p-2 text-center"><input type="checkbox" class="accent-montanoBlue" checked></td>
+                                        <td class="p-2 text-center"><input type="checkbox" class="accent-montanoBlue"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2">3. Collaborative teamwork & active participation</td>
+                                        <td class="p-2 text-center"><input type="checkbox" class="accent-montanoBlue" checked></td>
+                                        <td class="p-2 text-center"><input type="checkbox" class="accent-montanoBlue"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2">4. Response to plenary questions & engagement</td>
+                                        <td class="p-2 text-center"><input type="checkbox" class="accent-montanoBlue" checked></td>
+                                        <td class="p-2 text-center"><input type="checkbox" class="accent-montanoBlue"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Footer Note -->
+        <footer class="text-center text-xs text-slate-500 py-2">
+            Colegio Montano Educational Platform &bull; Teacher Nicole De León &bull; Curriculum Nacional Base (CNB) Guatemala Aligned
+        </footer>
+
+    </main>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Data structure for all 7 weeks (2 classes per week, Unit 3 Our World 1)
+        const curriculumData = {
+            1: { // Weeks 1-2 Topic: Simple present of want (SB pp. 100-101, WB pp. 69-70)
+                title: "Simple Present of Want: I want / You want",
+                datesW: "May 20 - May 31",
+                competency: "Expresses personal preferences and desires using simple affirmative structures orally and in writing, based on Our World 1 (SB pp. 100-101, WB p. 69).",
+                habit: "Habit 2: Begin with the End in Mind (Setting clear goals for what we want to express).",
+                classes: {
+                    1: {
+                        subTitle: "Simple present of want: I want / You want (SB p. 100, WB p. 69)",
+                        vocab: "Vocabulary 1 Review (SB p. 96-97): a truck, a car, a kite, a ball, a drum, a train, a puzzle, a doll, a teddy bear.",
+                        dynamic: "Song & Chant: Sing snippet from 'Let's Play' (SB p. 99): 'Do you want to play? Yes, I do!' Act out playing with a ball or train.",
+                        indTitle: "SB Page 100 & WB Page 69 Practice",
+                        indDesc: "Students complete exercises tracing and writing sentences with 'I want...' and matching toys to characters.",
+                        solution: "Answers SB p. 100: 1. I want a train. 2. You want a doll.\nAnswers WB p. 69: Matching lines connecting children to their stated toy preference.",
+                        coopDesc: "Pairs take turns holding toy flashcards and saying 'I want a [toy]' while partner confirms or repeats.",
+                        homeResearch: "Look in your toy box or bedroom at home. Find 2 toys and practice saying to your parents: 'I want a [toy name]'!"
+                    },
+                    2: {
+                        subTitle: "Simple present of want questions and short answers (SB p. 101, WB p. 70)",
+                        vocab: "Vocabulary 2 Review (SB p. 104): a robot, a teddy bear, a puzzle, a board game, a doll.",
+                        dynamic: "Interactive Game: 'Guess What I Want' - One student mimes playing with an invisible toy; classmates ask 'Do you want a [toy]?'",
+                        indTitle: "SB Page 101 & WB Page 70 Practice",
+                        indDesc: "Students complete questions and answers: 'Do you want a doll? Yes, I do / No, I don't.'",
+                        solution: "Answers SB p. 101: 1. Do you want a robot? Yes, I do. 2. Do you want a puzzle? No, I don't.\nAnswers WB p. 70: Writing short answers correctly.",
+                        coopDesc: "Team roleplay: Interviewing a classmate about what toys they want using questions and short answers.",
+                        homeResearch: "Ask a family member at home: 'Do you want a puzzle?' and write down their answer (Yes/No) in your notebook."
+                    }
+                }
+            },
+            2: { // Week 3 Topic: Questions with this and these (SB p. 103, WB pp. 72-73)
+                title: "Questions with this and these",
+                datesW: "June 3 - June 7",
+                competency: "Identifies and asks questions about near objects using 'What is this?' and 'What are these?' based on Our World 1 (SB p. 103, WB pp. 72-73).",
+                habit: "Habit 3: Put First Things First (Focusing on singular vs plural distinction).",
+                classes: {
+                    1: {
+                        subTitle: "Singular questions: What is this? / It's a... (SB p. 103, WB p. 72)",
+                        vocab: "Review Body parts & Toys (SB pp. 96 & 116): a nose, an eye, a ball, a kite.",
+                        dynamic: "Point and Ask game: Teacher holds up 1 object close and asks 'What is this?'. Students respond 'It's a [object]'.",
+                        indTitle: "SB Page 103 (Part 1) & WB Page 72",
+                        indDesc: "Students trace and write 'What is this? It's a...' for singular classroom items and toys.",
+                        solution: "Answers SB p. 103: 1. What is this? It's a ball. 2. What is this? It's a kite.\nAnswers WB p. 72: Completing sentences with 'is this' and 'It's a'.",
+                        coopDesc: "In pairs, student A holds up 1 pencil or toy close and asks 'What is this?'; student B answers.",
+                        homeResearch: "Find 1 object in your kitchen. Point to it and ask a parent 'What is this?' and answer 'It's a [object]'."
+                    },
+                    2: {
+                        subTitle: "Plural questions: What are these? / They're... (SB p. 103, WB p. 73)",
+                        vocab: "Review Plurals: hands, feet, fingers, arms, eyes, ears (SB p. 116-117).",
+                        dynamic: "TPR (Total Physical Response): Teacher holds up 2 pens or fingers and prompts 'What are these? They're pens!'",
+                        indTitle: "SB Page 103 (Part 2) & WB Page 73",
+                        indDesc: "Workbook activities writing plural questions and answers: 'What are these? They're hands / They're arms.'",
+                        solution: "Answers SB p. 103: 1. What are these? They're hands. 2. What are these? They're arms.\nAnswers WB p. 73: Plural matching and writing.",
+                        coopDesc: "Pairs practice pointing to two fingers, books, or pencils and asking 'What are these?' -> 'They're...'",
+                        homeResearch: "Count your shoes or socks at home. Point to them and practice saying: 'What are these? They're shoes!'"
+                    }
+                }
+            },
+            3: { // Weeks 4-5 Topic: Possessive adjectives (SB pp. 120-121, WB pp. 83-84)
+                title: "Possessive Adjectives: My, Your, His, Her",
+                datesW: "June 10 - June 21",
+                competency: "Identifies and uses possessive adjectives (my, your, his, her) to describe personal belongings and body parts based on Our World 1 (SB pp. 120-121).",
+                habit: "Habit 5: Seek First to Understand, Then to Be Understood (Respecting others' belongings and identities).",
+                classes: {
+                    1: {
+                        subTitle: "Possessive Adjectives: My and Your (SB p. 120, WB p. 83)",
+                        vocab: "Review Action words & body parts: jump, run, arms, legs (SB pp. 116, 133).",
+                        dynamic: "Point to Self and Partner chant: 'This is my book! That is your pencil!'",
+                        indTitle: "SB Page 120 & WB Page 83 Practice",
+                        indDesc: "Students fill in blanks using 'my' and 'your' with school items and body parts.",
+                        solution: "Answers SB p. 120: 1. This is my bag. 2. This is your book.\nAnswers WB p. 83: Correctly coloring and writing my/your.",
+                        coopDesc: "Pair work: Exchange pencil cases and state 'This is my pencil, this is your eraser.'",
+                        homeResearch: "Show your favorite book at home to your family and say: 'This is my favorite book!'"
+                    },
+                    2: {
+                        subTitle: "Possessive Adjectives: His and Her (SB p. 121, WB p. 84)",
+                        vocab: "Review Family and description words: strong arms, long hair (SB p. 133).",
+                        dynamic: "Guess Whose Object: Collect 1 item from a boy and 1 from a girl. Hold up and say 'This is his jacket / This is her pencil'.",
+                        indTitle: "SB Page 121 & WB Page 84 Practice",
+                        indDesc: "Workbook exercises choosing between 'his' and 'her' based on male/female picture prompts.",
+                        solution: "Answers SB p. 121: 1. His ball. 2. Her doll.\nAnswers WB p. 84: Matching his/her correctly to characters.",
+                        coopDesc: "In teams of 3, identify classmates' school supplies using 'His [item]' and 'Her [item]'.",
+                        homeResearch: "Look at family photos. Point to a brother or sister and say to your parents: 'His/Her hair is...'"
+                    }
+                }
+            },
+            4: { // Weeks 6-7 Topic: Ability with can (SB p. 123, WB pp. 86-87)
+                title: "Ability with Can / Can't",
+                datesW: "June 24 - July 5 (Note: Mid-year vacation break follows)",
+                competency: "Expresses physical abilities and actions using 'can' and 'can't' based on Our World 1 (SB p. 123, WB pp. 86-87).",
+                habit: "Habit 1: Be Proactive ('I can do hard things!').",
+                classes: {
+                    1: {
+                        subTitle: "Affirmative ability with can: I can run / jump (SB p. 123, WB p. 86)",
+                        vocab: "Review action verbs (SB p. 133): jump, run, walk, climb, swim.",
+                        dynamic: "Action Simon Says: 'Simon says: You can jump!' Students jump and repeat 'I can jump!'",
+                        indTitle: "SB Page 123 (Part 1) & WB Page 86",
+                        indDesc: "Students complete sentences with 'I can [action]' matching animals and children actions.",
+                        solution: "Answers SB p. 123: 1. I can run. 2. I can jump.\nAnswers WB p. 86: Tracing and matching abilities.",
+                        coopDesc: "Pairs demonstrate an action (e.g. hop or clap) and say 'I can clap!' Partner repeats 'You can clap!'",
+                        homeResearch: "Show 1 new thing you can do at home (like jumping high or hopping) and say 'I can...'"
+                    },
+                    2: {
+                        subTitle: "Questions and Short Answers with Can (SB p. 123, WB p. 87)",
+                        vocab: "Review action verbs and animal skills: fly, run, swim, jump.",
+                        dynamic: "Animal Olympics trivia: 'Can a bird fly? Yes, it can!' 'Can a dog fly? No, it can't!'",
+                        indTitle: "SB Page 123 (Part 2) & WB Page 87",
+                        indDesc: "Workbook practice writing questions: 'Can you swim? Yes, I can / No, I can't.'",
+                        solution: "Answers SB p. 123: 1. Can you run? Yes, I can. 2. Can you fly? No, I can't.\nAnswers WB p. 87: Completing question-answer pairs.",
+                        coopDesc: "Interview partner: 'Can you jump high?' 'Can you swim?' Recording answers with smiley faces.",
+                        homeResearch: "Ask a pet or family member: 'Can you [action]?' and report back next class!"
+                    }
+                }
+            }
+        };
+
+        // Current navigation state
+        let currentWeek = 1;
+        let currentClass = 1;
+        let currentTab = 'intro';
+
+        function switchWeek(weekNum) {
+            currentWeek = weekNum;
+            // Update button styles
+            for (let i = 1; i <= 4; i++) {
+                const btn = document.getElementById(`weekBtn${i}`);
+                if (i === weekNum) {
+                    btn.className = "week-tab px-3 py-1.5 rounded-lg text-xs font-bold transition bg-montanoBlue text-white shadow";
+                } else {
+                    btn.className = "week-tab px-3 py-1.5 rounded-lg text-xs font-bold transition bg-slate-100 text-slate-700 hover:bg-slate-200";
+                }
+            }
+            updateView();
+        }
+
+        function switchClass(classNum) {
+            currentClass = classNum;
+            for (let i = 1; i <= 2; i++) {
+                const btn = document.getElementById(`classBtn${i}`);
+                if (i === classNum) {
+                    btn.className = "class-tab px-3 py-1.5 rounded-lg text-xs font-bold bg-montanoGreen text-white shadow transition";
+                } else {
+                    btn.className = "class-tab px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition";
+                }
+            }
+            updateView();
+        }
+
+        function switchTab(tabName) {
+            currentTab = tabName;
+            const tabs = ['intro', 'individual', 'cooperative', 'plenary'];
+            tabs.forEach(t => {
+                const pane = document.getElementById(`tabContent-${t}`);
+                const btn = document.getElementById(`tabBtn-${t}`);
+                if (t === tabName) {
+                    pane.classList.remove('hidden');
+                    btn.className = "p-3 rounded-xl font-bold text-xs md:text-sm flex items-center justify-center gap-2 transition shadow bg-montanoBlue text-white border-2 border-montanoBlue";
+                } else {
+                    pane.classList.add('hidden');
+                    btn.className = "p-3 rounded-xl font-bold text-xs md:text-sm flex items-center justify-center gap-2 transition bg-white text-slate-700 border-2 border-slate-200 hover:border-montanoBlue";
+                }
+            });
+        }
+
+        function updateView() {
+            const wData = curriculumData[currentWeek];
+            const cData = wData.classes[currentClass];
+
+            // Update Header info
+            document.getElementById('badgeTopic').innerText = `Unit 3 | ${wData.title}`;
+            document.getElementById('badgeDates').innerText = `${wData.datesW} (Week ${currentWeek*2 - 1}-${currentWeek*2}, Class ${currentClass})`;
+            document.getElementById('sessionTitle').innerText = cData.subTitle;
+            document.getElementById('sessionCompetency').innerHTML = `<strong>CNB Competency & Learning Achievement:</strong> ${wData.competency}`;
+            document.getElementById('montanoHabit').innerText = wData.habit;
+
+            // Update Tab contents
+            document.getElementById('introVocabText').innerHTML = cData.vocab;
+            document.getElementById('introDynamicText').innerHTML = cData.dynamic;
+            document.getElementById('indTaskTitle').innerText = cData.indTitle;
+            document.getElementById('indTaskDesc').innerText = cData.indDesc;
+            document.getElementById('solutionContent').innerHTML = `<strong>Answer Key & Guidance:</strong><br>${cData.solution.replace(/\n/g, '<br>')}`;
+            document.getElementById('coopTaskDesc').innerHTML = cData.coopDesc;
+            document.getElementById('homeResearchText').innerText = cData.homeResearch;
+        }
+
+        function toggleAccordion(id) {
+            const el = document.getElementById(id);
+            const chevron = document.getElementById('solutionChevron');
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+                chevron.classList.add('rotate-180');
+            } else {
+                el.classList.add('hidden');
+                chevron.classList.remove('rotate-180');
+            }
+        }
+
+        // Fullscreen Toggle function
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.error(`Error attempting to enable fullscreen: ${err.message}`);
+                });
+                document.getElementById('fullscreenIcon').className = "fa-solid fa-compress";
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+                document.getElementById('fullscreenIcon').className = "fa-solid fa-expand";
+            }
+        }
+    </script>
+</body>
+</html>
